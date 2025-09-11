@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVC Explicado - Patrón de Diseño</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --model-color: #ff6b6b;
+            --view-color: #4ecdc4;
+            --controller-color: #45b7d1;
+            --dark-bg: #2d3436;
+            --light-text: #f5f5f5;
+            --dark-text: #2d3436;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+            color: var(--light-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--model-color), var(--view-color), var(--controller-color));
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--model-color), var(--view-color), var(--controller-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .intro p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .mvc-diagram {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            position: relative;
+            flex-wrap: wrap;
+        }
+        
+        .component {
+            width: 30%;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .component:hover {
+            transform: translateY(-5px);
+        }
+        
+        .model {
+            background: linear-gradient(135deg, var(--model-color), #ff8e8e);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .view {
+            background: linear-gradient(135deg, var(--view-color), #7ae0da);
+            box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+        }
+        
+        .controller {
+            background: linear-gradient(135deg, var(--controller-color), #67c7e0);
+            box-shadow: 0 10px 20px rgba(69, 183, 209, 0.3);
+        }
+        
+        .component h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .component-icon {
+            font-size: 2rem;
+        }
+        
+        .connections {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .connection {
+            text-align: center;
+            flex: 1;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 8px;
+            margin: 0 0.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .connection i {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .example-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .example-panel {
+            flex: 1;
+            min-width: 100%;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .example-panel h3 {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .example-model h3 {
+            border-color: var(--model-color);
+            color: var(--model-color);
+        }
+        
+        .example-view h3 {
+            border-color: var(--view-color);
+            color: var(--view-color);
+        }
+        
+        .example-controller h3 {
+            border-color: var(--controller-color);
+            color: var(--controller-color);
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .advantage-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .advantage-card h3 {
+            color: var(--view-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+ 
+.folder-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.folder-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.folder-item i {
+    color: #ffd43b;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.example-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    margin: 3rem 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.example-section h2 {
+    color: #4ecdc4;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.example-section h3 {
+    color: #f5f5f5;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.code-block {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: #f5f5f5;
+}
+
+.folder-structure {
+    list-style-type: none;
+    counter-reset: item;
+    padding-left: 0;
+    line-height: 1.8;
+}
+
+.folder-structure > li {
+    counter-increment: item;
+    margin-bottom: 10px;
+}
+
+.folder-structure > li:before {
+    content: counter(item) ".";
+    margin-right: 10px;
+    font-weight: bold;
+    color: #74c0fc;
+}
+
+.folder-item, .file-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.folder-item:hover, .file-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.folder-item i {
+    color: #ffd43b;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.file-item i {
+    color: #74c0fc;
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.nested {
+    list-style-type: none;
+    margin-left: 24px;
+    padding-left: 12px;
+    border-left: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.nested li {
+    position: relative;
+}
+
+.nested li:before {
+    content: "↳";
+    position: absolute;
+    left: -20px;
+    color: rgba(255, 255, 255, 0.5);
+}
+        
+        @media (max-width: 900px) {
+            .component {
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+            
+            .mvc-diagram {
+                flex-direction: column;
+            }
+            
+            .connections {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .connection {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Modelo-Vista-Controlador (MVC)</h1>
+        <p>El patrón de arquitectura de software que separa la lógica de negocio, la interfaz y la entrada del usuario</p>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>¿Qué es el patrón MVC?</h2>
+            <p>MVC es un patrón de diseño de software que separa una aplicación en tres componentes interconectados: Modelo, Vista y Controlador. Esto permite una separación de preocupaciones, es decir, cada componente se encarga de un aspecto específico de la aplicación, facilitando el desarrollo, testing y mantenimiento.</p>
+        </section>
+        
+        <section class="mvc-diagram">
+            <div class="component model">
+                <h2><i class="fas fa-database component-icon"></i> Modelo</h2>
+                <p>Gestiona los datos y la lógica de negocio. Es responsable de acceder a la base de datos, procesar información y aplicar reglas de negocio.</p>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li>Gestión de datos</li>
+                    <li>Lógica de negocio</li>
+                    <li>Validación de datos</li>
+                    <li>Acceso a base de datos</li>
+                </ul>
+            </div>
+            
+            <div class="component view">
+                <h2><i class="fas fa-desktop component-icon"></i> Vista</h2>
+                <p>Presenta la información al usuario. Es la interfaz visual que muestra datos y recibe interacciones, pero no procesa lógica de negocio.</p>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li>Interfaz de usuario</li>
+                    <li>Presentación de datos</li>
+                    <li>Recepcion de interacciones</li>
+                    <li>No contiene lógica de negocio</li>
+                </ul>
+            </div>
+            
+            <div class="component controller">
+                <h2><i class="fas fa-cogs component-icon"></i> Controlador</h2>
+                <p>Actúa como intermediario. Recibe las entradas del usuario, las procesa (posiblemente actualizando el Modelo) y selecciona la Vista apropiada.</p>
+                <ul style="text-align: left; margin-top: 1rem;">
+                    <li>Maneja peticiones del usuario</li>
+                    <li>Actualiza el modelo</li>
+                    <li>Selecciona la vista</li>
+                    <li>Intermediario entre modelo y vista</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="connections">
+            <div class="connection">
+                <i class="fas arrow-right" style="color: var(--model-color);">→</i>
+                <p>Modelo notifica cambios a la Vista</p>
+            </div>
+            <div class="connection">
+                <i class="fas arrow-right" style="color: var(--view-color);">→</i>
+                <p>Vista envía acciones del usuario al Controlador</p>
+            </div>
+            <div class="connection">
+                <i class="fas arrow-right" style="color: var(--controller-color);">→</i>
+                <p>Controlador actualiza el Modelo</p>
+            </div>
+        </section>
+        
+        <section class="example-section">
+            <h2>Ejemplo Estático: Sistema de Gestión de Usuarios</h2>
+            <p>Veamos cómo funciona MVC en la práctica con un ejemplo de un sistema de usuarios:</p>
+            
+            <div class="example-container">
+                <div class="example-panel example-view" >
+                    <h3><i class="fas fa-database"></i> Modelo (User.php)</h3>
+                    <p>Gestiona los datos de usuario y las operaciones de base de datos:</p>
+                    <div  class="code-block" >
+                        class User {<br>
+                        &nbsp;&nbsp;private $id;<br>
+                        &nbsp;&nbsp;private $name;<br>
+                        &nbsp;&nbsp;private $email;<br><br>
+                        &nbsp;&nbsp;public function __construct($id, $name, $email) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$this->id = $id;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$this->name = $name;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$this->email = $email;<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;public function save() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Lógica para guardar en BD<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;public static function find($id) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Lógica para buscar en BD<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+                
+                <div class="example-panel example-view">
+                    <h3><i class="fas fa-desktop"></i> Vista (user_profile.php)</h3>
+                    <p>Muestra la información del usuario en una página HTML:</p>
+                    <div class="code-block">
+                        &lt;html&gt;<br>
+                        &lt;body&gt;<br>
+                        &nbsp;&nbsp;&lt;h1&gt;Perfil de Usuario&lt;/h1&gt;<br>
+                        &nbsp;&nbsp;&lt;div&gt;Nombre: &lt;?= $user->name ?&gt;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&lt;div&gt;Email: &lt;?= $user->email ?&gt;&lt;/div&gt;<br>
+                        &nbsp;&nbsp;&lt;form action="index.php" method="POST"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;input type="hidden" name="action" value="update"&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button type="submit"&gt;Actualizar&lt;/button&gt;<br>
+                        &nbsp;&nbsp;&lt;/form&gt;<br>
+                        &lt;/body&gt;<br>
+                        &lt;/html&gt;
+                    </div>
+                </div>
+                
+                <div class="example-panel example-controller">
+                    <h3><i class="fas fa-cogs"></i> Controlador (UserController.php)</h3>
+                    <p>Maneja las peticiones relacionadas con usuarios:</p>
+                    <div class="code-block">
+                        class UserController {<br>
+                        &nbsp;&nbsp;public function show($id) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Obtener usuario del modelo<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$user = User::find($id);<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Cargar la vista apropiada<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;include 'user_profile.php';<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;public function update($id, $data) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Buscar usuario<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$user = User::find($id);<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Actualizar datos<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$user->name = $data['name'];<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$user->email = $data['email'];<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Guardar cambios<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;$user->save();<br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;// Redirigir a la vista de perfil<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;header("Location: /user/" . $id);<br>
+                        &nbsp;&nbsp;}<br>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="example-section">
+            <h2>Ventajas del Patrón MVC</h2>
+            <div class="advantages">
+                <div class="advantage-card">
+                    <h3><i class="fas fa-project-diagram"></i> Separación de preocupaciones</h3>
+                    <p>Cada componente tiene una responsabilidad específica, lo que facilita el desarrollo y mantenimiento del código.</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h3><i class="fas fa-users"></i> Trabajo en equipo</h3>
+                    <p>Diferentes desarrolladores pueden trabajar simultáneamente en el modelo, vista y controlador.</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h3><i class="fas fa-code"></i> Reutilización de código</h3>
+                    <p>Los modelos y componentes de vista pueden ser reutilizados en diferentes partes de la aplicación.</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h3><i class="fas fa-vial"></i> Facilidad de testing</h3>
+                    <p>La separación de componentes permite realizar pruebas unitarias de manera más sencilla y efectiva.</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h3><i class="fas fa-paint-brush"></i> Múltiples vistas</h3>
+                    <p>Un mismo modelo puede ser representado por diferentes vistas sin modificar la lógica de negocio.</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h3><i class="fas fa-tools"></i> Mantenibilidad</h3>
+                    <p>Los cambios en la interfaz o la lógica de negocio pueden realizarse de manera independiente.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="example-section">
+    <h2>Paso 01</h2>
+    <h3><i class="fas fa-folder"></i> Crea las siguientes carpetas</h3>                     
+    <div class="code-block">
+        <ol class="folder-structure">
+            <li class="folder-item">
+                <i class="fas fa-folder"></i> model
+                <ul class="nested">
+                    <li class="file-item"><i class="fas fa-file-code"></i> razamodel.php</li>
+                    <li class="file-item"><i class="fas fa-file-code"></i> mascotamodel.php</li>
+                     
+                     
+                </ul>
+            </li>
+            
+            <li class="folder-item">
+                <i class="fas fa-folder"></i> view
+                <ul class="nested">
+                    <li class="folder-item">
+                        <i class="fas fa-folder"></i> razasview
+                        <ul class="nested">
+                            <li class="file-item"><i class="fas fa-file-code"></i> index.php</li>
+                            <li class="file-item"><i class="fas fa-file-code"></i> create.php</li>
+                            <li class="file-item"><i class="fas fa-file-code"></i> edit.php</li>
+                        </ul>
+                    </li>
+                    <li class="folder-item">
+                        <i class="fas fa-folder"></i> mascotasview
+                        <ul class="nested">
+                            <li class="file-item"><i class="fas fa-file-code"></i> index.php</li>
+                            <li class="file-item"><i class="fas fa-file-code"></i> create.php</li>
+                            <li class="file-item"><i class="fas fa-file-code"></i> edit.php</li>
+                        </ul>
+                    </li>
+                    <li class="file-item">
+                        <i class="fas fa-file-code"></i> inicio.php</li>
+
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="folder-item">
+                <i class="fas fa-folder"></i> controller
+                <ul class="nested">
+                    <li class="file-item"><i class="fas fa-file-code"></i> razacontroller.php</li>
+                    <li class="file-item"><i class="fas fa-file-code"></i> mascotacontroller.php</li>
+                </ul>
+            </li>
+            
+            <li class="folder-item">
+                <i class="fas fa-folder"></i> config
+                <ul class="nested">
+                    <li class="file-item"><i class="fas fa-file-code"></i> cn.php</li>
+                </ul>
+            </li>
+            
+            <li class="folder-item"><i class="fas fa-folder"></i> imgs</li>
+            <li class="file-item"><i class="fas fa-file-code"></i> index.php</li>
+            <li class="file-item"><i class="fas fa-file"></i> .htaccess</li>
+        </ol>
+    </div>
+</section>
+    </div>
+    
+    <footer>
+        <p>Explicación MVC</p>
+        
+    </footer>
+</body>
+</html>
