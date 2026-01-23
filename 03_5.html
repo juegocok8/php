@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación Técnica: Drivers de Base de Datos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #374151; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        .bg-pattern {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 bg-pattern min-h-screen text-gray-800">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center gap-3">
+            <div class="bg-indigo-50 p-2 rounded-lg text-indigo-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+            <span class="font-bold text-gray-900 tracking-tight text-sm uppercase">Módulo Avanzado: Drivers y Extensiones PDO</span>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+
+        <header class="mb-10 text-center border-b border-gray-200 pb-10">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-4">Compatibilidad de Motores de Base de Datos</h1>
+            <p class="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed text-justify md:text-center">
+                El instalador de Laravel detecta automáticamente las extensiones PHP habilitadas en el entorno. A continuación, se detalla el significado de las advertencias de "Missing PDO extension" y el procedimiento técnico para su resolución en entornos Windows/Linux.
+            </p>
+        </header>
+
+        <div class="bg-[#1e1e1e] rounded-xl p-6 shadow-xl mb-12 border border-gray-700 max-w-3xl mx-auto">
+            <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                <div class="flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <span class="text-[10px] text-gray-500 font-mono uppercase">System Check</span>
+            </div>
+
+            <div class="font-mono text-sm text-gray-300">
+                <div class="mb-3">
+                    <span class="text-green-500 font-bold">Which database will your application use?</span>
+                    <span class="text-gray-500">[MySQL]</span>:
+                </div>
+                <ul class="space-y-1 pl-2">
+                    <li class="flex items-center gap-3 text-gray-400">
+                        <span>○ [sqlite  ]</span> <span>SQLite</span>
+                    </li>
+
+                    <li class="flex items-center gap-3 text-white bg-blue-900/30 px-2 py-1 rounded border-l-2 border-blue-500">
+                        <span class="text-blue-400 font-bold">● [mysql   ]</span> <span>MySQL</span>
+                    </li>
+
+                    <li class="flex items-center gap-3 text-gray-400">
+                        <span>○ [mariadb ]</span> <span>MariaDB</span>
+                    </li>
+
+                    <li class="flex items-center justify-between gap-3 text-gray-500 pr-4 opacity-75">
+                        <div class="flex gap-3">
+                            <span>○ [pgsql   ]</span> <span>PostgreSQL</span>
+                        </div>
+                        <span class="text-red-400 text-xs tracking-tight bg-red-900/20 px-2 py-0.5 rounded border border-red-900/30">
+                            (Missing PDO extension)
+                        </span>
+                    </li>
+
+                    <li class="flex items-center justify-between gap-3 text-gray-500 pr-4 opacity-75">
+                        <div class="flex gap-3">
+                            <span>○ [sqlsrv  ]</span> <span>SQL Server</span>
+                        </div>
+                        <span class="text-red-400 text-xs tracking-tight bg-red-900/20 px-2 py-0.5 rounded border border-red-900/30">
+                            (Missing PDO extension)
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mb-12">
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <h2 class="text-lg font-bold text-red-800">Diagnóstico: ¿Qué significa "Missing PDO extension"?</h2>
+                </div>
+                <p class="text-sm text-red-800 text-justify leading-relaxed">
+                    PHP actúa como intermediario entre la aplicación (Laravel) y la base de datos. Para comunicarse, PHP requiere un <strong>"Driver"</strong> específico llamado extensión PDO (PHP Data Objects).
+                    <br><br>
+                    El mensaje indica que el intérprete de PHP instalado en el sistema <strong>no tiene activada o instalada la librería dinámica (.dll en Windows o .so en Linux)</strong> necesaria para comunicarse con PostgreSQL o SQL Server.
+                </p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" class="w-6 h-6" alt="PG Icon">
+                    <h3 class="font-bold text-gray-800">Caso A: Habilitar PostgreSQL</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-xs text-gray-500 mb-4 text-justify">
+                        En la mayoría de distribuciones (XAMPP, Laragon, PHP Standalone), el driver de PostgreSQL ya viene incluido en la carpeta <code>/ext</code>, pero se encuentra comentado (desactivado) por defecto.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-100 text-blue-700 font-mono text-xs flex items-center justify-center font-bold">1</div>
+                            <div class="text-sm">
+                                <p class="font-bold text-gray-800">Localizar php.ini</p>
+                                <p class="text-gray-500 text-xs">Ubique el archivo de configuración principal de PHP.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-100 text-blue-700 font-mono text-xs flex items-center justify-center font-bold">2</div>
+                            <div class="w-full">
+                                <p class="font-bold text-gray-800">Descomentar Extensiones</p>
+                                <p class="text-gray-500 text-xs mb-2">Elimine el punto y coma (;) inicial en las siguientes líneas:</p>
+                                <div class="bg-gray-800 rounded p-3 font-mono text-xs text-gray-300">
+                                    <span class="text-gray-500">; extension=pdo_mysql</span><br>
+                                    <span class="text-green-400">extension=pdo_pgsql</span> <span class="text-gray-500"><-- Habilitar</span><br>
+                                    <span class="text-green-400">extension=pgsql</span> <span class="text-gray-500"><-- Habilitar</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-blue-100 text-blue-700 font-mono text-xs flex items-center justify-center font-bold">3</div>
+                            <div class="text-sm">
+                                <p class="font-bold text-gray-800">Reiniciar Servicios</p>
+                                <p class="text-gray-500 text-xs">Reinicie Apache/Nginx o la terminal para aplicar cambios.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.0003 12.0002L0.692383 10.3713V2.40356L12.0003 0.692139V12.0002ZM12.0003 12.0002V23.3082L0.692383 21.629V13.6613L12.0003 12.0002ZM13.6268 12.0002L23.308 13.4355V21.8548L13.6268 23.534V12.0002ZM13.6268 12.0002V0.466431L23.308 2.14557V10.5649L13.6268 12.0002Z"/></svg>
+                    <h3 class="font-bold text-gray-800">Caso B: SQL Server (Complejo)</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-xs text-gray-500 mb-4 text-justify">
+                        PHP no incluye nativamente los drivers para Microsoft SQL Server. Es necesario descargar los binarios manualmente e instalarlos.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-purple-100 text-purple-700 font-mono text-xs flex items-center justify-center font-bold">1</div>
+                            <div class="text-sm">
+                                <p class="font-bold text-gray-800">Descargar DLLs</p>
+                                <p class="text-gray-500 text-xs">Descargue "Microsoft Drivers for PHP for SQL Server" desde el sitio oficial de Microsoft. Asegúrese de que coincida con su versión de PHP (Thread Safe).</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-purple-100 text-purple-700 font-mono text-xs flex items-center justify-center font-bold">2</div>
+                            <div class="text-sm">
+                                <p class="font-bold text-gray-800">Instalación en /ext</p>
+                                <p class="text-gray-500 text-xs">Copie los archivos <code>php_sqlsrv.dll</code> y <code>php_pdo_sqlsrv.dll</code> a la carpeta <code>ext</code> de su instalación de PHP.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="flex-shrink-0 w-6 h-6 rounded bg-purple-100 text-purple-700 font-mono text-xs flex items-center justify-center font-bold">3</div>
+                            <div class="w-full">
+                                <p class="font-bold text-gray-800">Editar php.ini</p>
+                                <p class="text-gray-500 text-xs mb-2">Agregue manualmente las siguientes líneas al final del archivo:</p>
+                                <div class="bg-gray-800 rounded p-3 font-mono text-xs text-gray-300">
+                                    extension=php_sqlsrv.dll<br>
+                                    extension=php_pdo_sqlsrv.dll
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="bg-gray-100 border-t border-gray-200 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs text-gray-500">
+            Documentación de Referencia - Configuración de Entornos PHP
+        </div>
+    </footer>
+
+</body>
+</html>

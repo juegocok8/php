@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Deep Dive + Beneficio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide-container { aspect-ratio: 16/9; }
+        .font-mono { font-family: 'Fira Code', 'Courier New', Courier, monospace; }
+        /* Animación suave para el bloque recomendado */
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .pulse-box { animation: pulse-green 3s infinite; }
+    </style>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen p-4 font-sans">
+
+    <div class="slide-container w-full max-w-7xl bg-white shadow-2xl overflow-hidden flex flex-col relative">
+
+        <div class="h-3 w-full bg-gradient-to-r from-blue-600 to-indigo-600"></div>
+
+        <div class="px-12 pt-8 pb-4 border-b border-gray-100 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-extrabold text-gray-900">Ventajas: sintaxís del comando</h1>
+                <p class="text-lg text-gray-500 mt-1">Del comando técnico al beneficio práctico</p>
+            </div>
+            <div class="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded text-gray-600 text-sm font-mono">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l2-1 8 4-10 5-10-5 8-4 2 1z"></path></svg>
+                Composer Global
+            </div>
+        </div>
+
+        <div class="flex-1 px-12 py-6 flex flex-col gap-6 overflow-hidden">
+
+            <div class="bg-gray-900 rounded-xl p-4 shadow-lg flex justify-around items-center font-mono text-xl z-10 relative">
+                <div class="flex flex-col items-center group">
+                    <span class="text-yellow-400 font-bold">composer</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-sans mt-1">Gestor</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-pink-400 font-bold">global</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-sans mt-1">Sistema</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-blue-400 font-bold">require</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-sans mt-1">Instalar</span>
+                </div>
+                <div class="flex flex-col items-center group">
+                    <span class="text-green-400 font-bold">laravel/installer</span>
+                    <span class="text-[10px] text-gray-500 uppercase tracking-widest font-sans mt-1">Paquete</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8 h-full">
+
+                <div class="space-y-3 flex flex-col justify-center">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">El Proceso Interno</h3>
+
+                    <div class="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">Descarga Centralizada</h4>
+                            <p class="text-xs text-gray-500 leading-tight mt-1">Guarda el código en tu carpeta de usuario (Global), no en el proyecto.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 items-start p-3 bg-gray-50 rounded-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-700 w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-sm">Crea el Ejecutable</h4>
+                            <p class="text-xs text-gray-500 leading-tight mt-1">Genera el archivo binario <code class="bg-gray-200 px-1 rounded">laravel.exe</code> en la carpeta /bin.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 items-start p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <div class="bg-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shrink-0">3</div>
+                        <div>
+                            <h4 class="font-bold text-blue-900 text-sm">Acceso vía PATH</h4>
+                            <p class="text-xs text-blue-800 leading-tight mt-1">Tu terminal encuentra ese archivo y habilita el "superpoder".</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-2xl p-5 border border-gray-200 flex flex-col justify-center relative">
+                    <h3 class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">El Resultado: Crear Proyectos</h3>
+
+                    <div class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-bold text-red-500 flex items-center gap-1">
+                                ❌ Método Largo
+                            </span>
+                            <span class="text-[10px] bg-gray-200 text-gray-500 px-2 rounded-full">Difícil</span>
+                        </div>
+                        <div class="bg-gray-700 rounded p-3 font-mono text-xs text-gray-300 border-l-4 border-gray-500 truncate">
+                            $ composer create-project laravel/laravel...
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center -my-2 relative z-10">
+                         <svg class="w-6 h-6 text-gray-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+
+                    <div class="bg-white border-2 border-green-500 rounded-xl p-1 shadow-xl mt-2 transform scale-105 pulse-box relative z-20">
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-green-700 flex items-center gap-1">
+                                    ✅ Con Instalador
+                                </span>
+                                <span class="text-[10px] bg-green-200 text-green-800 px-2 rounded-full font-bold">RECOMENDADO</span>
+                            </div>
+                            <div class="bg-gray-900 rounded p-3 font-mono text-base shadow-inner flex items-center gap-2">
+                                <span class="text-green-500 font-bold">$</span>
+                                <span class="text-white">laravel new</span>
+                                <span class="text-yellow-300">mi-app</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center text-[10px] text-gray-400 mt-3 uppercase font-semibold">Mucho más rápido y fácil de recordar</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bg-gray-100 px-8 py-2 flex justify-between items-center text-[10px] text-gray-500 uppercase tracking-wider">
+            <span>Infraestructura PHP</span>
+            <span>Composer v2 + Laravel Installer</span>
+        </div>
+    </div>
+
+</body>
+</html>

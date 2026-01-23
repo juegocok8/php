@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Opciones de Frontend Laravel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #1f2937; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        .bg-pattern {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 bg-pattern min-h-screen">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center gap-3">
+            <div class="bg-red-50 p-2 rounded-lg text-red-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+            </div>
+            <span class="font-bold text-gray-900 tracking-tight">Diccionario de Instalación</span>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+
+        <header class="mb-12 text-center max-w-2xl mx-auto">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Elige tu "Frontend"</h1>
+            <p class="text-lg text-gray-600">
+                Laravel te está preguntando: <em>"¿Cómo quieres construir la parte visual (las vistas) de tu aplicación?"</em>. Aquí te explicamos qué significa cada opción de la lista.
+            </p>
+        </header>
+
+        <div class="bg-[#1e1e1e] rounded-xl p-6 shadow-2xl mb-16 border border-gray-700 max-w-lg mx-auto transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+            <div class="flex gap-2 mb-4 border-b border-gray-700 pb-2">
+                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div class="font-mono text-sm">
+                <div class="text-gray-400 mb-2">Which starter kit would you like to install?</div>
+                <ul class="space-y-1">
+                    <li class="flex items-center gap-3 text-white bg-gray-700/50 px-2 py-1 rounded border-l-4 border-green-500">
+                        <span class="text-green-400 font-bold">› [none    ]</span> <span>None</span>
+                    </li>
+                    <li class="flex items-center gap-3 text-gray-400 px-2">
+                        <span>  [react   ]</span> <span>React</span>
+                    </li>
+                    <li class="flex items-center gap-3 text-gray-400 px-2">
+                        <span>  [vue     ]</span> <span>Vue</span>
+                    </li>
+                    <li class="flex items-center gap-3 text-gray-400 px-2">
+                        <span>  [livewire]</span> <span>Livewire</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <div class="col-span-1 md:col-span-2 bg-white rounded-2xl p-8 border-2 border-green-500 shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-green-500 text-white text-xs font-bold px-4 py-1 rounded-bl-xl uppercase tracking-widest">
+                    Tu elección (Principiantes)
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-green-100 p-3 rounded-xl text-green-700">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2 font-mono">[none] None</h2>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Significa <strong>"Ninguno"</strong>. Laravel no instalará herramientas extra de JavaScript. Utilizarás el motor de plantillas nativo llamado <strong>Blade</strong>.
+                        </p>
+
+                        <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+                            <h4 class="font-bold text-green-800 text-sm mb-2">¿Por qué elegir esta?</h4>
+                            <ul class="text-sm text-green-700 space-y-1 list-disc pl-4">
+                                <li>Es la forma estándar y clásica de Laravel.</li>
+                                <li>Solo necesitas saber HTML y PHP básico.</li>
+                                <li>No requiere compilar JavaScript complejo al inicio.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 animate-spin-slow" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><circle cx="12" cy="12" r="2"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 font-mono">[react] React</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">
+                    Instala Laravel configurado para funcionar con la librería <strong>React.js</strong> (creada por Facebook).
+                </p>
+                <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
+                    <span class="font-bold text-gray-700">Resultado:</span> Crea una "Single Page Application" (SPA). La página nunca recarga, se siente como una app móvil (ej: Facebook, Instagram).
+                    <br><span class="text-red-500 mt-1 block font-semibold">⚠ Curva de aprendizaje alta.</span>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M2 3h4l6 10.4L18 3h4L12 21 2 3z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 font-mono">[vue] Vue.js</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">
+                    Similar a React, pero usa el framework <strong>Vue.js</strong>. Es históricamente el "mejor amigo" de Laravel.
+                </p>
+                <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded border border-gray-100">
+                    <span class="font-bold text-gray-700">Resultado:</span> También crea una SPA moderna. Vue suele considerarse un poco más fácil de aprender que React, pero sigue requiriendo conocimientos sólidos de JavaScript.
+                </div>
+            </div>
+
+            <div class="col-span-1 md:col-span-2 bg-gradient-to-r from-pink-50 to-white rounded-2xl p-6 border border-pink-200 hover:shadow-md transition-shadow">
+                <div class="flex items-start md:items-center flex-col md:flex-row gap-4">
+                    <div class="bg-pink-100 p-3 rounded-xl text-pink-600">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 font-mono mb-1">[livewire] Livewire</h3>
+                        <p class="text-gray-700 text-sm">
+                            Es una tecnología mágica exclusiva de Laravel. Te permite crear interfaces dinámicas (como las de React/Vue) pero <strong>escribiendo código PHP</strong> en lugar de JavaScript.
+                        </p>
+                    </div>
+                    <div class="bg-white px-4 py-2 rounded-lg border border-pink-100 text-xs font-semibold text-pink-700 shadow-sm whitespace-nowrap">
+                        Intermedio / Full-Stack PHP
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-center border-t border-gray-200 pt-8">
+            <p class="text-gray-500 text-sm mb-2">¿preguntas?</p>
+            <div class="inline-block bg-gray-900 text-white px-6 py-3 rounded-full font-bold shadow-lg cursor-default hover:bg-gray-800 transition-colors">
+                PHP framework  <span class="text-green-400 font-mono">[REQP]</span>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>

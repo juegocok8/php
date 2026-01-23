@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Faker – Generación de Texto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 p-8">
+
+    <h1 class="text-2xl font-bold mb-6 text-white">
+        Generación de texto con Faker (Laravel)
+    </h1>
+
+    <p class="text-gray-400 mb-8">
+        Faker permite generar texto falso pero realista para poblar bases de datos
+        usando factories. A continuación se muestran los métodos más usados
+        para generar títulos, párrafos y contenido.
+    </p>
+
+    <!-- BLOQUE: sentence -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            sentence()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">sentence</span>(6);
+            <br><br>
+            <span class="text-gray-400">// Genera una oración corta (ideal para títulos)</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: words -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            words()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">words</span>(5, <span class="text-purple-400">true</span>);
+            <br><br>
+            <span class="text-gray-400">// Genera 5 palabras unidas por espacios</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: text -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            text()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">text</span>(100);
+            <br><br>
+            <span class="text-gray-400">// Texto aleatorio de hasta 100 caracteres</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: realText -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            realText()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">realText</span>(300);
+            <br><br>
+            <span class="text-gray-400">// Texto más natural y coherente (recomendado para contenido)</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: paragraph -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            paragraph()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">paragraph</span>(3);
+            <br><br>
+            <span class="text-gray-400">// Párrafo de 3 oraciones</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: paragraphs -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            paragraphs()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">paragraphs</span>(3, <span class="text-purple-400">true</span>);
+            <br><br>
+            <span class="text-gray-400">// Genera 3 párrafos unidos en un solo texto</span>
+        </div>
+    </div>
+
+    <!-- BLOQUE: slug -->
+    <div class="mb-6">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            slug()
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">fake</span>()-&gt;
+            <span class="text-green-400">slug</span>();
+            <br><br>
+            <span class="text-gray-400">// Ideal para URLs amigables</span>
+        </div>
+    </div>
+
+    <!-- EJEMPLO FINAL -->
+    <div class="mt-10">
+        <span class="text-[10px] font-bold text-gray-400 uppercase mb-2 block">
+            Ejemplo completo en Factory
+        </span>
+        <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[12px] border border-gray-700">
+            <span class="text-blue-400">return</span> [<br>
+            &nbsp;&nbsp;<span class="text-orange-400">'titulo'</span> =&gt; fake()-&gt;sentence(6),<br>
+            &nbsp;&nbsp;<span class="text-orange-400">'contenido'</span> =&gt; fake()-&gt;realText(300),<br>
+            &nbsp;&nbsp;<span class="text-orange-400">'slug'</span> =&gt; fake()-&gt;slug(),<br>
+            ];<br>
+        </div>
+    </div>
+
+</body>
+</html>

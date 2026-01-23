@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Instalación Laravel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'Fira Code', monospace; }
+        .bg-laravel { background-color: #FF2D20; }
+        .text-laravel { color: #FF2D20; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <svg class="w-8 h-8 text-laravel" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M5.996 18.232c-.524.275-.85.815-.85 1.408v.025c0 .964 1.03 1.564 1.874 1.125L20 14.5V4.65c0-.607-.338-1.162-.876-1.432-.524-.263-1.144-.22-1.62.11L5.996 11.23v7.002z"/>
+                    <path d="M12 12.5l-6 3 6 3 6-3-6-3z" class="text-red-800 opacity-50"/>
+                </svg>
+                <span class="font-bold text-xl tracking-tight">Laravel Docs</span>
+            </div>
+            <div class="text-sm font-medium text-gray-500">v12.x</div>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-6 py-12">
+
+        <header class="mb-12">
+            <span class="text-laravel font-bold tracking-wider uppercase text-sm">Primeros Pasos</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mt-2 mb-4 tracking-tight">Instalación y Configuración</h1>
+            <p class="text-xl text-gray-600 leading-relaxed">
+                Aprende a configurar tu entorno de desarrollo utilizando el instalador global de Laravel para un flujo de trabajo más rápido y eficiente.
+            </p>
+        </header>
+
+        <hr class="border-gray-200 mb-12">
+
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span class="bg-red-100 text-laravel w-8 h-8 rounded-lg flex items-center justify-center text-sm">1</span>
+                El Instalador de Laravel
+            </h2>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Para crear nuevos proyectos de Laravel rápidamente, recomendamos instalar el instalador global mediante Composer. Este paquete instala un binario en tu sistema que te permite acceder al comando <code class="bg-gray-100 px-1 py-0.5 rounded text-red-600 font-mono text-sm">laravel</code> desde cualquier carpeta.
+            </p>
+
+            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-lg border border-gray-800 mb-6">
+                <div class="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+                    <span class="text-xs text-gray-400 font-mono">Terminal</span>
+                </div>
+                <div class="p-6 overflow-x-auto">
+                    <code class="font-mono text-sm">
+                        <span class="text-green-400 select-none">$ </span>
+                        <span class="text-white">composer global require laravel/installer</span>
+                    </code>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+                <h3 class="font-bold text-blue-900 mb-2">¿Qué hace este comando?</h3>
+                <ul class="space-y-2 text-blue-800 text-sm">
+                    <li><strong>Global:</strong> Instala la herramienta a nivel de sistema operativo, no solo en la carpeta actual.</li>
+                    <li><strong>Require:</strong> Ordena a Composer descargar el paquete.</li>
+                    <li><strong>Laravel/Installer:</strong> Es una herramienta ligera CLI (Línea de Comandos) que actúa como asistente.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">¿Por qué usar el instalador?</h2>
+
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+
+                <div class="mb-8 opacity-60 hover:opacity-100 transition-opacity">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2 text-gray-500 font-semibold text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            Método Tradicional (Largo)
+                        </div>
+                        <span class="bg-gray-100 text-gray-500 text-xs px-2 py-1 rounded">Difícil de recordar</span>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg font-mono text-sm text-gray-600 break-all border border-gray-200">
+                        composer create-project laravel/laravel mi-proyecto
+                    </div>
+                </div>
+
+                <div class="flex justify-center -my-6 relative z-10 mb-2">
+                    <div class="bg-white p-2 rounded-full border border-gray-200 shadow-sm text-gray-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                    </div>
+                </div>
+
+                <div class="relative bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-xl p-6 shadow-md">
+                    <div class="absolute top-0 right-0 -mt-3 -mr-3">
+                        <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm uppercase tracking-wide">Recomendado</span>
+                    </div>
+
+                    <div class="flex items-center gap-2 text-green-700 font-bold text-sm mb-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Con el Instalador
+                    </div>
+
+                    <div class="bg-gray-900 rounded-lg p-5 font-mono text-lg flex items-center text-white shadow-inner">
+                        <span class="text-green-500 mr-3 select-none">$</span>
+                        laravel new <span class="text-yellow-400 ml-2">mi-app</span>
+                    </div>
+                    <p class="mt-3 text-sm text-green-800">
+                        Mucho más corto, intuitivo y rápido de escribir.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Siguientes Pasos</h2>
+            <p class="text-gray-600 mb-6">Una vez instalado el proyecto, utiliza <strong>Artisan</strong> para gestionar tu aplicación:</p>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="border border-gray-200 rounded-lg p-4 hover:border-laravel transition-colors cursor-default group">
+                    <code class="text-laravel font-mono font-bold text-sm block mb-1 group-hover:underline">php artisan serve</code>
+                    <p class="text-sm text-gray-500">Inicia el servidor de desarrollo local.</p>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4 hover:border-laravel transition-colors cursor-default group">
+                    <code class="text-laravel font-mono font-bold text-sm block mb-1 group-hover:underline">php artisan migrate</code>
+                    <p class="text-sm text-gray-500">Ejecuta las migraciones de base de datos pendientes.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20 py-12">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <p class="text-gray-500 text-sm">© 2025 Documentación de Laravel (No Oficial). Creado con fines educativos.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

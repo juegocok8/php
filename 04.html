@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Pasos Iniciales - Datos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Formato Slide 16:9 */
+        .slide-container {
+            aspect-ratio: 16/9;
+        }
+        .font-mono {
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen p-4 font-sans">
+
+    <div class="slide-container w-full max-w-7xl bg-white shadow-2xl overflow-hidden flex flex-col relative">
+
+        <div class="h-3 w-full bg-gradient-to-r from-red-600 to-orange-500"></div>
+
+        <div class="px-16 pt-10 pb-4 flex justify-between items-end border-b border-gray-100">
+            <div>
+                <h1 class="text-5xl font-extrabold text-gray-900 tracking-tight">Pasos Iniciales</h1>
+                <p class="text-xl text-gray-500 mt-2">Manipulación de Datos y Modelos</p>
+            </div>
+            <div class="bg-yellow-50 p-3 rounded-xl border border-yellow-100 text-yellow-600 mb-2">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+        </div>
+
+        <div class="flex-1 px-16 py-8 grid grid-cols-2 gap-12 items-center">
+
+            <div class="space-y-8">
+
+                <div class="group">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-600 py-1 px-2 rounded text-xs uppercase tracking-wide">Interactivo</span>
+                        Consola Tinker
+                    </h3>
+                    <div class="bg-gray-900 rounded-xl p-5 shadow-lg border-l-4 border-blue-500">
+                        <p class="text-gray-500 font-mono text-xs mb-1 select-none"># Entrar al entorno de pruebas (REPL)</p>
+                        <code class="text-white font-mono text-lg block">
+                            <span class="text-green-400">$</span> php artisan tinker
+                        </code>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 flex items-center gap-2">
+                        <span class="bg-red-100 text-red-600 py-1 px-2 rounded text-xs uppercase tracking-wide">Estructura</span>
+                        Creación de Modelos
+                    </h3>
+                    <div class="bg-gray-900 rounded-xl p-5 shadow-lg border-l-4 border-red-500 space-y-3">
+                        <div>
+                            <p class="text-gray-500 font-mono text-xs mb-1 select-none"># Crear modelo para Entradas</p>
+                            <code class="text-white font-mono text-lg block">
+                                <span class="text-green-400">$</span> php artisan make:model Entrada
+                            </code>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 font-mono text-xs mb-1 select-none"># Crear modelo para Comentarios</p>
+                            <code class="text-white font-mono text-lg block">
+                                <span class="text-green-400">$</span> php artisan make:model Comentario
+                            </code>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="h-full flex flex-col justify-center">
+                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-200 h-full relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-6 opacity-5">
+                        <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        <span class="text-green-600">🌱</span> Semillas (Seeds)
+                    </h3>
+
+                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                        Los <strong>Seeders</strong> sirven para poblar la base de datos con información falsa o de prueba automáticamente.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-gray-700 text-sm">1. Generar archivo</span>
+                                <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-500 font-mono">make:seeder</span>
+                            </div>
+                            <code class="block bg-gray-900 text-yellow-300 p-3 rounded-lg font-mono text-sm">
+                                php artisan make:seeder EntradasTableSeeder
+                            </code>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold text-gray-700 text-sm">2. Sembrar datos</span>
+                                <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-500 font-mono">db:seed</span>
+                            </div>
+                            <code class="block bg-gray-900 text-green-400 p-3 rounded-lg font-mono text-sm">
+                                php artisan db:seed
+                            </code>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="absolute bottom-5 right-8 flex items-center gap-2 opacity-80">
+            <div class="text-right mr-2">
+                <p class="text-xs text-gray-400 uppercase font-bold tracking-widest">Artisan Console</p>
+            </div>
+            <svg class="w-8 h-8 text-red-600" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5.996 18.232c-.524.275-.85.815-.85 1.408v.025c0 .964 1.03 1.564 1.874 1.125L20 14.5V4.65c0-.607-.338-1.162-.876-1.432-.524-.263-1.144-.22-1.62.11L5.996 11.23v7.002z"/>
+                <path d="M12 12.5l-6 3 6 3 6-3-6-3z" class="text-red-800 opacity-50"/>
+            </svg>
+        </div>
+    </div>
+
+</body>
+</html>

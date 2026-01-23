@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentaciones HTML</title>
+    <style>
+        :root {
+            --primary-dark: #1a365d;
+            --primary-medium: #2d4a7c;
+            --primary-light: #4a6fab;
+            --secondary-dark: #2d3748;
+            --secondary-medium: #4a5568;
+            --secondary-light: #718096;
+            --accent-color: #3182ce;
+            --accent-hover: #2c5282;
+            --background-light: #f7fafc;
+            --background-card: #ffffff;
+            --border-color: #e2e8f0;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-light);
+            color: var(--secondary-dark);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 12px 12px;
+            margin-bottom: 2.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 0 2rem 3rem;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 24px;
+            background-color: var(--accent-color);
+            margin-right: 12px;
+            border-radius: 3px;
+        }
+
+        .card {
+            background: var(--background-card);
+            border-radius: 10px;
+            padding: 1.75rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--primary-light);
+            transition: width 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent-color);
+        }
+
+        .card:hover::before {
+            width: 8px;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            line-height: 1.4;
+        }
+
+        .card-link:hover {
+            color: var(--accent-hover);
+        }
+
+        .card p {
+            color: var(--secondary-medium);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .card-badge {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            align-self: flex-start;
+        }
+
+        .card-badge.primary {
+            background-color: var(--primary-light);
+        }
+
+        .card-badge.section {
+            background-color: var(--secondary-medium);
+        }
+
+        .card-badge.other {
+            background-color: var(--success-color);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--background-card);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 0 2rem 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--secondary-medium);
+            margin-top: 0.25rem;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            margin: 0;
+            padding: 0;
+        }
+
+        .modal.show {
+            opacity: 1;
+            display: block;
+        }
+
+        .modal-content {
+            background-color: var(--background-card);
+            width: 95%;
+            height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin: 2.5% auto;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 1.25rem 1.5rem;
+            background: var(--primary-dark);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0 0.5rem;
+            line-height: 1;
+            transition: opacity 0.2s ease;
+        }
+
+        .close:hover {
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+
+        .modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--secondary-dark);
+            z-index: 1002;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--secondary-medium);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem 2rem;
+            }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                margin: 0 1rem 1.5rem;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 98%;
+                height: 95%;
+                margin: 2.5% auto;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Presentaciones HTML</h1>
+        <p class="subtitle">Accede a todas las presentaciones y sus secciones desde un único portal. Haz clic en cualquier tarjeta para abrir la presentación.</p>
+    </header>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number">4</span>
+            <span class="stat-label">Presentaciones principales</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">15</span>
+            <span class="stat-label">Secciones detalladas</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Presentaciones adicionales</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">22</span>
+            <span class="stat-label">Total de presentaciones</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Presentaciones Principales</h2>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="01.html">Presentación 01</a>
+            <p>Primera presentación del conjunto principal. Contiene información introductoria y conceptos básicos.</p>
+            <span class="card-badge primary">Principal</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="02.html">Presentación 02</a>
+            <p>Segunda presentación con contenido avanzado y ejemplos prácticos de implementación.</p>
+            <span class="card-badge primary">Principal</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03.html">Presentación 03</a>
+            <p>Tercera presentación que cubre temas especializados y casos de uso específicos.</p>
+            <span class="card-badge primary">Principal</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="04.html">Presentación 04</a>
+            <p>Cuarta presentación con conclusiones y recomendaciones finales.</p>
+            <span class="card-badge primary">Principal</span>
+        </div>
+
+        <h2 class="section-title">Secciones de la Presentación 03</h2>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_1.html">Presentación 03.1</a>
+            <p>Sección 1 de la tercera presentación. Detalla los conceptos iniciales y fundamentos teóricos.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_2.html">Presentación 03.2</a>
+            <p>Sección 2 de la tercera presentación. Profundiza en la metodología aplicada.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_3.html">Presentación 03.3</a>
+            <p>Sección 3 de la tercera presentación. Presenta los resultados obtenidos en la fase inicial.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_4.html">Presentación 03.4</a>
+            <p>Sección 4 de la tercera presentación. Analiza los datos recopilados y patrones identificados.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_5.html">Presentación 03.5</a>
+            <p>Sección 5 de la tercera presentación. Explica la implementación práctica de los conceptos.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_6.html">Presentación 03.6</a>
+            <p>Sección 6 de la tercera presentación. Muestra casos de estudio y ejemplos reales.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_7.html">Presentación 03.7</a>
+            <p>Sección 7 de la tercera presentación. Presenta las conclusiones de la investigación.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_8.html">Presentación 03.8</a>
+            <p>Sección 8 de la tercera presentación. Ofrece recomendaciones para implementación.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="03_9.html">Presentación 03.9</a>
+            <p>Sección 9 de la tercera presentación. Presenta el roadmap y próximos pasos.</p>
+            <span class="card-badge section">Sección 03</span>
+        </div>
+
+        <h2 class="section-title">Secciones de la Presentación 04</h2>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="04_1.html">Presentación 04.1</a>
+            <p>Sección 1 de la cuarta presentación. Revisión del estado actual y contexto.</p>
+            <span class="card-badge section">Sección 04</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="04_2.html">Presentación 04.2</a>
+            <p>Sección 2 de la cuarta presentación. Perspectivas futuras y recomendaciones estratégicas.</p>
+            <span class="card-badge section">Sección 04</span>
+        </div>
+
+        <h2 class="section-title">Presentaciones Adicionales</h2>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="05_seeder.html">Presentación Seeder</a>
+            <p>Información detallada sobre Seeders: configuración, implementación y mejores prácticas.</p>
+            <span class="card-badge other">Adicional</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="06_factories.html">Presentación Factories</a>
+            <p>Guía completa sobre Factories: creación, gestión y optimización de datos de prueba.</p>
+            <span class="card-badge other">Adicional</span>
+        </div>
+        <div class="card">
+            <a href="#" class="card-link presentation-link" data-src="06_factories2.html">Presentación Factories 2</a>
+            <p>Continuación de Factories: técnicas avanzadas y casos de uso complejos.</p>
+            <span class="card-badge other">Adicional</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>Sistema de Presentaciones HTML &copy; 2023 • Todas las presentaciones están disponibles para visualización</p>
+    </footer>
+
+    <!-- Modal -->
+    <div id="presentationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Cargando presentación...</h2>
+                <button class="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <span>Cargando presentación...</span>
+                </div>
+                <iframe id="presentationFrame" class="modal-iframe" title="Presentación"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get DOM elements
+            const modal = document.getElementById('presentationModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalFrame = document.getElementById('presentationFrame');
+            const closeBtn = document.querySelector('.close');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const presentationLinks = document.querySelectorAll('.presentation-link');
+
+            // Function to open modal
+            function openModal(title, src) {
+                // Show loading indicator
+                loadingIndicator.style.display = 'flex';
+
+                // Set title
+                modalTitle.textContent = title;
+
+                // Set iframe source
+                modalFrame.onload = function() {
+                    // Hide loading indicator when iframe is loaded
+                    loadingIndicator.style.display = 'none';
+                };
+
+                // Set iframe source after setting onload handler
+                modalFrame.src = src;
+
+                // Show modal
+                document.body.style.overflow = 'hidden';
+                document.documentElement.style.overflow = 'hidden';
+                modal.style.display = 'block';
+                setTimeout(() => modal.classList.add('show'), 10);
+            }
+
+            // Function to close modal
+            function closeModal() {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modalFrame.src = '';
+                    document.body.style.overflow = 'auto';
+                    document.documentElement.style.overflow = 'auto';
+                    loadingIndicator.style.display = 'flex'; // Reset for next time
+                }, 300);
+            }
+
+            // Add click event listeners to all presentation links
+            presentationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const title = this.textContent;
+                    const src = this.getAttribute('data-src');
+                    openModal(title, src);
+                });
+            });
+
+            // Close modal when clicking the close button
+            closeBtn.addEventListener('click', closeModal);
+
+            // Close modal when clicking outside the modal content
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'block') {
+                    closeModal();
+                }
+            });
+
+            // Add subtle hover effect to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

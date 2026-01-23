@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Técnica: Base de Datos en Laravel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #374151; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        .bg-pattern {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 bg-pattern min-h-screen text-gray-800">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center gap-3">
+            <div class="bg-red-50 p-2 rounded-lg text-red-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+            <span class="font-bold text-gray-900 tracking-tight text-sm uppercase">Guía de Desarrollo: Persistencia de Datos</span>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+
+        <header class="mb-10 text-center border-b border-gray-200 pb-10">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-4">Modelos, Migraciones y Seeders</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Aprende a estructurar la base de datos de tu aplicación Laravel de forma profesional, automatizando la creación de tablas y el poblado de datos iniciales.
+            </p>
+        </header>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">1</div>
+                <h3 class="font-bold text-gray-800">Creación de Modelos y Migraciones</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4 text-justify">
+                    Utilice el parámetro <code>-m</code> para generar el archivo de migración junto al modelo de Eloquent.
+                </p>
+                <div class="bg-[#1e1e1e] rounded-lg p-4 font-mono text-sm text-gray-300 border border-gray-700">
+                    <span class="text-blue-400">php <span class="text-yellow-400">artisan</span></span> make:model Entrada -m<br>
+                    <span class="text-blue-400">php <span class="text-yellow-400">artisan</span></span> make:model Comentario -m
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">2</div>
+                <h3 class="font-bold text-gray-800">Definición de Esquemas (Migrations)</h3>
+            </div>
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">2.1</div>
+                <h3 class="font-bold text-gray-800">
+                    Ahora vamos a definir las columnas de nuestras tablas en los archivos que se acaban de crear en:<br> database/migrations/.
+
+                </h3>
+            </div>
+            <div class="p-6 grid md:grid-cols-2 gap-6">
+
+                <div>
+                    <span>
+
+                    </span>
+                    <span class="text-xs font-bold text-gray-400 uppercase">Tabla Entradas</span><br>
+                    <span>Archivo: database/migrations/xxxx_xx_xx_xxxxxx_create_entradas_table.php</span>
+                    <div class="bg-[#1e1e1e] rounded-lg p-4 font-mono text-[12px] text-gray-300 mt-2 border border-gray-700">
+                        <span class="text-purple-400">Schema</span>::create(<span class="text-green-400">'entradas'</span>, <span class="text-blue-400">function</span> ($table) {<br>
+                        &nbsp;&nbsp;$table->id();<br>
+                        &nbsp;&nbsp;$table->string(<span class="text-green-400">'titulo'</span>);<br>
+                        &nbsp;&nbsp;$table->text(<span class="text-green-400">'contenido'</span>);<br>
+                        &nbsp;&nbsp;$table->timestamps();<br>
+                        });
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-gray-400 uppercase">Tabla Comentarios</span><br>
+                    <span  >Archivo: database/migrations/xxxx_xx_xx_xxxxxx_create_comentarios_table.php</span>
+                    <div class="bg-[#1e1e1e] rounded-lg p-4 font-mono text-[12px] text-gray-300 mt-2 border border-gray-700">
+                        <span class="text-purple-400">Schema</span>::create(<span class="text-green-400">'comentarios'</span>, <span class="text-blue-400">function</span> ($table) {<br>
+                        &nbsp;&nbsp;$table->id();<br>
+                        &nbsp;&nbsp;$table->foreignId(<span class="text-green-400">'entrada_id'</span>)->constrained();<br>
+                        &nbsp;&nbsp;$table->text(<span class="text-green-400">'mensaje'</span>);<br>
+                        &nbsp;&nbsp;$table->timestamps();<br>
+                        });
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">3</div>
+                <h3 class="font-bold text-gray-800">Lógica de Modelos y Fillable</h3>
+            </div>
+            <div class="p-6">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded-r">
+                    <p class="text-xs text-blue-800">Configurar<code> los </code> modelos <code>(Lógica y Seguridad)</code>.</p>
+                    <p class="text-xs text-blue-800"> Vamos a <strong> app/Models/</strong> para habilitar la asignación masiva y las relaciones. </p>
+                </div>
+                <div class="p-6">
+                    <p class="text-sm text-gray-600 mb-4">
+                        Modelo Eloquent para gestionar entradas y sus comentarios.
+                    </p>
+                    <p class="font-bold text-gray-800">
+                        Modelo Entrada.php
+                    </p>
+                    <p>
+                        <strong>ruta: </strong>App\Models\Entrada.php
+                    </p>
+
+                    <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-gray-300 border border-gray-700 leading-relaxed">
+                        <span class="text-blue-400">namespace</span> App\Models;<br>
+                        <span class="text-gray-500">// Define el espacio de nombres donde se ubica el modelo</span><br><br>
+
+                        <span class="text-blue-400">use</span> Illuminate\Database\Eloquent\Model;<br>
+                        <span class="text-gray-500">// Importa la clase base Model de Eloquent</span><br><br>
+
+                        <span class="text-blue-400">class</span> <span class="text-yellow-400">Entrada</span>
+                        <span class="text-blue-400">extends</span> Model<br>
+                        <span class="text-gray-500">// Declara el modelo Entrada y hereda funcionalidades de Eloquent</span><br>
+                        {<br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Define los campos que pueden asignarse de forma masiva</span><br>
+                        &nbsp;&nbsp;<span class="text-gray-500">// Permite usar Entrada::create() en seeders y controladores</span><br>
+                        &nbsp;&nbsp;<span class="text-blue-400">protected</span>
+                        <span class="text-yellow-400">$fillable</span> =
+                        [<span class="text-green-400">'titulo'</span>, <span class="text-green-400">'contenido'</span>];<br><br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Relación uno a muchos: una entrada puede tener varios comentarios</span><br>
+                        &nbsp;&nbsp;<span class="text-gray-500">// Laravel usa entrada_id como clave foránea por convención</span><br>
+                        &nbsp;&nbsp;<span class="text-blue-400">public function</span>
+                        <span class="text-yellow-400">comentarios</span>()<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">return</span>
+                        <span class="text-yellow-400">$this</span>->hasMany(
+                        <span class="text-yellow-400">Comentario</span>::<span class="text-blue-400">class</span>);<br>
+                        &nbsp;&nbsp;}<br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Aquí se pueden agregar más métodos o relaciones</span><br>
+                        }
+                    </div>
+
+                    <p class="font-bold text-gray-800 mt-5">
+                        Modelo Comentario.php
+                    </p>
+                    <p>
+                        <strong>ruta: </strong>App\Models\Comentario.php
+                    </p>
+                    <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-gray-300 border border-gray-700 leading-relaxed">
+                        <span class="text-blue-400">namespace</span> App\Models;<br>
+
+
+                        <span class="text-blue-400">use</span> Illuminate\Database\Eloquent\Model;<br>
+                        <span class="text-gray-500">// Importa la clase base Model de Eloquent</span><br><br>
+
+                        <span class="text-blue-400">class</span> <span class="text-yellow-400">Comentario</span>
+                        <span class="text-blue-400">extends</span> Model<br>
+                        <span class="text-gray-500">// Declara el modelo Comentario</span><br>
+                        {<br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Campos que permiten asignación masiva (mass assignment)</span><br>
+                        &nbsp;&nbsp;<span class="text-gray-500">// Incluye la clave foránea entrada_id y el contenido del comentario</span><br>
+                        &nbsp;&nbsp;<span class="text-blue-400">protected</span>
+                        <span class="text-yellow-400">$fillable</span> =
+                        [<span class="text-green-400">'entrada_id'</span>, <span class="text-green-400">'mensaje'</span>];<br><br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Relación inversa: un comentario pertenece a una entrada</span><br>
+                        &nbsp;&nbsp;<span class="text-gray-500">// Laravel buscará la columna entrada_id como clave foránea</span><br>
+                        &nbsp;&nbsp;<span class="text-blue-400">public function</span>
+                        <span class="text-yellow-400">entrada</span>()<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">return</span>
+                        <span class="text-yellow-400">$this</span>->belongsTo(
+                        <span class="text-yellow-400">Entrada</span>::<span class="text-blue-400">class</span>);<br>
+                        &nbsp;&nbsp;}<br>
+
+                        &nbsp;&nbsp;<span class="text-gray-500">// Aquí se pueden agregar más métodos o relaciones</span><br>
+                        }
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="p-6">
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4 rounded-r">
+                    <p class="text-xs text-blue-800">La propiedad <code>$fillable</code> es obligatoria para permitir el poblado de datos mediante el método <code>create()</code>.</p>
+                </div>
+                <div class="bg-[#1e1e1e] rounded-lg p-4 font-mono text-sm text-gray-300 border border-gray-700">
+                    <span class="text-gray-500">// Modelo Entrada.php</span><br>
+                    <span class="text-blue-400">protected</span> <span class="text-yellow-400">$fillable</span> = [<span class="text-green-400">'titulo', 'contenido'</span>];<br><br>
+                    <span class="text-gray-500">// Modelo Comentario.php</span><br>
+                    <span class="text-blue-400">protected</span> <span class="text-yellow-400">$fillable</span> = [<span class="text-green-400">'entrada_id', 'mensaje'</span>];
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">4</div>
+                <h3 class="font-bold text-gray-800">Automatización de Datos (Seeders) para poblar la base de datos</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4 text-justify">
+                    Primero, crea el archivo del seeder en la consola; digita:
+                </p>
+                <div class="bg-[#1e1e1e] rounded-lg p-4 font-mono text-sm text-gray-300 border border-gray-700">
+                    <span class="text-blue-400">php <span class="text-yellow-400">artisan</span></span> make:seeder EntradasTableSeeder
+
+                </div>
+                <div class="text-sm text-gray-600 mb-4 text-justify mt-5">
+                    Luego, abre el archivo: <br>
+                    <br>database/seeders/EntradasTableSeeder.php y pega este código que inserta 10 entradas con 2 comentarios cada una:
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4">
+                    Seeder para insertar entradas y comentarios de prueba relacionados entre sí.
+                </p>
+                <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-gray-300 border border-gray-700 leading-relaxed">
+
+                    <span class="text-blue-400">&lt;?php</span><br><br>
+
+                    <span class="text-blue-400">namespace</span> Database\Seeders;<br>
+                    <span class="text-gray-500">// Define el espacio de nombres del seeder</span><br><br>
+
+                    <span class="text-blue-400">use</span> Illuminate\Database\Seeder;<br>
+                    <span class="text-blue-400">use</span> App\Models\Entrada;<br>
+                    <span class="text-blue-400">use</span> App\Models\Comentario;<br>
+                    <span class="text-gray-500">// Importa los modelos que se utilizarán</span><br><br>
+
+                    <span class="text-blue-400">class</span>
+                    <span class="text-yellow-400">EntradasTableSeeder</span>
+                    <span class="text-blue-400">extends</span> Seeder<br>
+                    {<br>
+
+                    &nbsp;&nbsp;<span class="text-gray-500">// Método que se ejecuta al correr el seeder</span><br>
+                    &nbsp;&nbsp;<span class="text-blue-400">public function</span>
+                    <span class="text-yellow-400">run</span>()<br>
+                    &nbsp;&nbsp;{<br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-gray-500">// Bucle para crear 10 entradas con comentarios</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-blue-400">for</span> (
+                    <span class="text-yellow-400">$i</span> =
+                    <span class="text-orange-400">1</span>;
+                    <span class="text-yellow-400">$i</span> &lt;=
+                    <span class="text-orange-400">10</span>;
+                    <span class="text-yellow-400">$i</span>++) {<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-gray-500">// Se crea una nueva entrada</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-yellow-400">$entrada</span> =
+                    <span class="text-yellow-400">Entrada</span>::create([<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'titulo'</span> =>
+                    <span class="text-green-400">"Noticia número $i"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'contenido'</span> =>
+                    <span class="text-green-400">"Este es el cuerpo de la noticia $i creada para pruebas."</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-gray-500">// Primer comentario asociado a la entrada</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-yellow-400">Comentario</span>::create([<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'entrada_id'</span> =>
+                    <span class="text-yellow-400">$entrada</span>->id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'mensaje'</span> =>
+                    <span class="text-green-400">"Interesante artículo sobre la noticia $i"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br><br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-gray-500">// Segundo comentario asociado a la entrada</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-yellow-400">Comentario</span>::create([<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'entrada_id'</span> =>
+                    <span class="text-yellow-400">$entrada</span>->id,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-green-400">'mensaje'</span> =>
+                    <span class="text-green-400">"¡Gracias por compartir esta información!"</span>,<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]);<br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                    &nbsp;&nbsp;}<br>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">5</div>
+                <h3 class="font-bold text-gray-800">Registrar y Ejecutar</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4 text-justify">
+                    Abre el archivo maestro database/seeders/DatabaseSeeder.php y llama a tu seeder:
+                </p>
+                <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-gray-300 border border-gray-700 leading-relaxed">
+                    <span class="text-blue-400">public function</span>
+                    <span class="text-yellow-400">run</span>(): <span class="text-blue-400">void</span><br>
+                    <span class="text-gray-500">// Método principal que ejecuta los seeders registrados</span><br>
+                    {<br>
+                    &nbsp;&nbsp;<span class="text-gray-500">// Llama al seeder EntradasTableSeeder</span><br>
+                    &nbsp;&nbsp;<span class="text-yellow-400">$this</span>->call([<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-yellow-400">EntradasTableSeeder</span>::<span class="text-blue-400">class</span>,<br>
+                    &nbsp;&nbsp;]);<br>
+                    }
+                </div>
+                <div class="text-sm text-gray-600 mb-4 text-justify mt-5">
+                    Finalmente, ejecuta el comando que limpia y reconstruye todo:
+                </div>
+                <div class="bg-red-900/10 border border-red-200 rounded p-3 font-mono text-sm text-red-900">
+                    php artisan migrate:fresh --seed
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4">
+                    Seeder para insertar entradas y comentarios de prueba relacionados entre sí.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-sm">
+            <div class="flex items-center gap-2 mb-3">
+                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <h2 class="text-lg font-bold text-red-800 text-sm uppercase">Comando de Ejecución Global</h2>
+            </div>
+            <p class="text-sm text-red-800 mb-4 font-medium">Limpia las tablas e inicia el proceso de poblado:</p>
+            <div class="bg-red-900/10 border border-red-200 rounded p-3 font-mono text-sm text-red-900">
+                php artisan migrate:fresh --seed
+            </div>
+        </div>
+        <br>
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+            <div class="bg-gray-100 px-6 py-4 border-b border-gray-200 flex items-center gap-3">
+                <div class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">6</div>
+                <h3 class="font-bold text-gray-800">Verificación Final</h3>
+            </div>
+
+            <div class="p-6">
+                <p class="text-sm text-gray-600 mb-4 text-justify">
+                    Para estar 100% seguros de que los datos se insertaron correctamente,
+                    utiliza <strong>Tinker</strong> para verificar los registros en la base de datos.
+                </p>
+
+                <div class="bg-[#1e1e1e] rounded-lg p-5 font-mono text-[13px] text-gray-300 border border-gray-700 leading-relaxed mb-4">
+                    <span class="text-blue-400">php artisan</span> tinker<br><br>
+
+                    <span class="text-green-400">// tinker  es una consola para probar tus seeders</span> <br><br>
+
+                    <span class="text-yellow-400">App\Models\Entrada</span>::<span class="text-blue-400">count</span>();
+                    <span class="text-gray-500">// Debe devolver 10</span><br>
+
+                    <span class="text-yellow-400">App\Models\Comentario</span>::<span class="text-blue-400">count</span>();
+                    <span class="text-gray-500">// Debe devolver 20</span>
+                </div>
+
+                <div class="bg-green-900/10 border border-green-200 rounded p-4 text-sm text-green-900 text-justify">
+                    ¿Lograste ver los <strong>10 registros</strong> de entradas y los
+                    <strong>20 comentarios</strong> en la consola?
+                    Si es así, ¡tu base de datos ya está lista para ser usada en la interfaz web! 🚀
+                    <br>
+                    Si no es asi revisa nuevamente los pasos.
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-lg shadow-sm">
+            <div class="flex items-center gap-2 mb-3">
+                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <h2 class="text-lg font-bold text-red-800 text-sm uppercase">Muestra de resultado final</h2>
+            </div>
+
+            <div class="bg-red-900/10 border border-red-200 rounded p-3 font-mono text-sm text-red-900">
+                <img src="prueba.png"> 
+            </div>
+        </div>
+
+
+
+
+
+    </main>
+
+    <footer class="bg-gray-100 border-t border-gray-200 mt-12 py-8">
+        <div class="max-w-6xl mx-auto px-6 text-center text-xs text-gray-400 font-mono">
+            PHP v8.x + Laravel v10/11 Framework Documentation
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía: Tablas por Defecto en Laravel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #1f2937; }
+        pre, code { font-family: 'Fira Code', monospace; }
+        .bg-pattern {
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 bg-pattern min-h-screen text-gray-800">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center gap-3">
+            <div class="bg-indigo-50 p-2 rounded-lg text-indigo-700">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+            </div>
+            <span class="font-bold text-gray-900 tracking-tight text-sm uppercase">Módulo 6: Estructura de Base de Datos</span>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+
+        <header class="mb-10 text-center border-b border-gray-200 pb-10">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Confirmación de Migraciones</h1>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Laravel viene con un esquema de base de datos "pre-fabricado". Al confirmar esta opción, el sistema creará automáticamente las tablas esenciales para el funcionamiento de usuarios, sesiones y seguridad.
+            </p>
+        </header>
+
+        <div class="bg-[#1e1e1e] rounded-xl p-6 shadow-xl mb-12 border border-gray-700 max-w-2xl mx-auto">
+            <div class="flex items-center justify-between mb-4 border-b border-gray-700 pb-2">
+                <div class="flex gap-2">
+                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <span class="text-[10px] text-gray-500 font-mono uppercase">Database Setup</span>
+            </div>
+
+            <div class="font-mono text-sm md:text-base text-gray-300">
+                <div class="mb-2">
+                    <span class="text-gray-400">Default database updated.</span>
+                </div>
+                <div class="mb-2">
+                    <span class="text-green-500 font-bold">Would you like to run the default database migrations? (yes/no)</span>
+                    <span class="text-yellow-500 font-bold">[yes]</span>:
+                </div>
+                <div class="mt-2 text-white">
+                    > <span class="bg-gray-100 text-black px-1 animate-pulse">_</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid gap-8 mb-12">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h2 class="font-bold text-gray-800 text-lg">Diccionario de Tablas Estándar</h2>
+                    <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded font-bold">Laravel 11 / 12 Core</span>
+                </div>
+
+                <div class="divide-y divide-gray-100">
+
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-blue-100 p-2 rounded text-blue-600 mt-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 font-mono">users</h3>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                                    Es la tabla principal de la aplicación. Almacena la información de registro de los usuarios.
+                                </p>
+                                <div class="mt-3 flex gap-2">
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded border border-gray-200 font-mono">id</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded border border-gray-200 font-mono">name</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded border border-gray-200 font-mono">email</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded border border-gray-200 font-mono">password</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-yellow-100 p-2 rounded text-yellow-600 mt-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 font-mono">password_reset_tokens</h3>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                                    Tabla de seguridad temporal. Cuando un usuario olvida su contraseña, Laravel genera un "token" (código secreto) y lo guarda aquí para verificar que el enlace de recuperación enviado por correo es válido.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 hover:bg-gray-50 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-purple-100 p-2 rounded text-purple-600 mt-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 font-mono">sessions</h3>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                                    En versiones modernas de Laravel, las sesiones se guardan por defecto en la base de datos en lugar de archivos. Esta tabla rastrea qué usuarios están logueados, su dirección IP y su última actividad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 bg-indigo-50/50 border-l-4 border-indigo-500">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-indigo-100 p-2 rounded text-indigo-600 mt-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 font-mono">migrations</h3>
+                                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                                    <strong>¡Muy Importante!</strong> Esta es una tabla interna del sistema (Meta-data). Laravel la usa como un "libro de historial" para saber qué cambios ya se han aplicado a tu base de datos y cuáles faltan. Nunca debes borrarla manualmente.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="p-6 hover:bg-gray-50 transition-colors opacity-75">
+                         <div class="flex items-start gap-4">
+                            <div class="bg-gray-200 p-2 rounded text-gray-500 mt-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-700 font-mono">cache / failed_jobs</h3>
+                                <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                                    Dependiendo de tu configuración, también se crearán estas tablas. <code>cache</code> guarda datos temporales para que la app sea rápida, y <code>failed_jobs</code> registra tareas en segundo plano que fallaron (como un email que no se pudo enviar).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Acción Requerida</h3>
+            <div class="inline-flex items-center bg-gray-900 text-white rounded-full px-8 py-3 shadow-lg cursor-default hover:bg-gray-800 transition-colors">
+                <span class="mr-2 font-mono">Presiona</span>
+                <span class="font-bold text-yellow-400">ENTER</span>
+            </div>
+            <p class="text-xs text-gray-400 mt-3">
+                Esto creará físicamente las tablas en tu base de datos MySQL.
+            </p>
+        </div>
+
+    </main>
+
+</body>
+</html>
