@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Práctica de Controladores en Laravel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ff2d20 0%, #c92a1f 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background-color: white;
+            color: #ff2d20;
+        }
+
+        .content-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        h2 {
+            color: #ff2d20;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #f0f0f0;
+        }
+
+        h3 {
+            color: #1e293b;
+            font-size: 1.6rem;
+            margin: 25px 0 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            background-color: #fef2f2;
+            border-left: 4px solid #ff2d20;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .code-block {
+            background-color: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #94a3b8;
+        }
+
+        .code-keyword {
+            color: #f472b6;
+        }
+
+        .code-function {
+            color: #60a5fa;
+        }
+
+        .code-string {
+            color: #34d399;
+        }
+
+        .code-html {
+            color: #f59e0b;
+        }
+
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .advantage-card {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border-top: 4px solid #ff2d20;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .advantage-card i {
+            color: #ff2d20;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .mvc-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .mvc-item {
+            text-align: center;
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 200px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .mvc-item i {
+            font-size: 2.5rem;
+            color: #ff2d20;
+            margin-bottom: 15px;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #94a3b8;
+        }
+
+        .command {
+            background-color: #1e293b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            display: inline-block;
+        }
+
+        .exercise {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .exercise h4 {
+            color: #0ea5e9;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .exercise h4 i {
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background-color: #ff2d20;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .page-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-dot.active {
+            background-color: #ff2d20;
+            transform: scale(1.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .nav-container {
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .mvc-diagram {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+            </div>
+            <h1>Guía Práctica de Controladores en Laravel</h1>
+            <p class="subtitle">Aprende a crear y utilizar controladores en Laravel con ejemplos claros y ejercicios prácticos</p>
+
+            <div class="nav-container">
+                <button class="nav-btn active" data-target="what-is">¿Qué es?</button>
+                <button class="nav-btn" data-target="create">Crear</button>
+                <button class="nav-btn" data-target="parameters">Parámetros</button>
+                <button class="nav-btn" data-target="request">Request</button>
+                <button class="nav-btn" data-target="crud">CRUD</button>
+                <button class="nav-btn" data-target="invokable">Invokable</button>
+                <button class="nav-btn" data-target="exercises">Ejercicios</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sección 1: ¿Qué es un controlador? -->
+        <section id="what-is" class="content-section active">
+            <h2>1. ¿Qué es un controlador?</h2>
+            <p>Un controlador en Laravel es una clase PHP que se encarga de recibir las peticiones HTTP, procesar la lógica necesaria y devolver una respuesta. Su objetivo principal es separar la lógica de la aplicación de las rutas, logrando un código más limpio y mantenible.</p>
+
+            <div class="highlight">
+                <p><strong>Ubicación de controladores:</strong> <code>app/Http/Controllers</code></p>
+            </div>
+
+            <h3>Ventajas de usar controladores</h3>
+            <div class="advantages">
+                <div class="advantage-card">
+                    <i class="fas fa-folder-open"></i>
+                    <h4>Código organizado</h4>
+                    <p>Mantén tu código limpio, estructurado y fácil de mantener separando la lógica de las rutas.</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-sitemap"></i>
+                    <h4>Separación de responsabilidades</h4>
+                    <p>Cada componente tiene una función específica, siguiendo el principio de responsabilidad única.</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-recycle"></i>
+                    <h4>Reutilización de lógica</h4>
+                    <p>Puedes reutilizar métodos de controladores en diferentes rutas, evitando duplicación de código.</p>
+                </div>
+            </div>
+
+            <h3>Flujo MVC en Laravel</h3>
+            <div class="mvc-diagram">
+                <div class="mvc-item">
+                    <i class="fas fa-road"></i>
+                    <h4>Rutas</h4>
+                    <p>Reciben la petición HTTP</p>
+                </div>
+
+                <div class="arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="mvc-item">
+                    <i class="fas fa-cogs"></i>
+                    <h4>Controlador</h4>
+                    <p>Procesa la lógica</p>
+                </div>
+
+                <div class="arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+                <div class="mvc-item">
+                    <i class="fas fa-eye"></i>
+                    <h4>Vista/Respuesta</h4>
+                    <p>Devuelve la respuesta al usuario</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Crear un controlador básico -->
+        <section id="create" class="content-section">
+            <h2>2. Crear un controlador básico</h2>
+            <p>Para crear un controlador en Laravel, utilizamos el comando Artisan:</p>
+
+            <div class="command">
+                php artisan make:controller UserController
+            </div>
+
+            <p>Este comando genera el archivo <code>UserController.php</code> en la carpeta <code>app/Http/Controllers</code>.</p>
+
+            <h3>Ejemplo de controlador básico</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Routing\Controller</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">UserController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-comment">/**
+     * Método para saludar al usuario
+     * @return string
+     */</span>
+    <span class="code-keyword">public function</span> <span class="code-function">saludo</span>(): <span class="code-keyword">string</span>
+    {
+        <span class="code-keyword">return</span> <span class="code-string">"Hola desde el controlador"</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Ruta asociada en routes/web.php</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">use</span> <span class="code-function">App\Http\Controllers\UserController</span>;
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Support\Facades\Route</span>;
+
+<span class="code-comment">// Ruta básica que apunta al método saludo() del controlador</span>
+<span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/saludo'</span>, [<span class="code-function">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">'saludo'</span>]);</pre>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Resultado:</strong> Al acceder a <code>http://tudominio.com/saludo</code> se mostrará: <code>"Hola desde el controlador"</code></p>
+            </div>
+        </section>
+
+        <!-- Sección 3: Controladores con parámetros -->
+        <section id="parameters" class="content-section">
+            <h2>3. Controladores con parámetros</h2>
+            <p>Los controladores pueden recibir parámetros directamente desde la URL, lo que permite crear rutas dinámicas y flexibles.</p>
+
+            <h3>Controlador con parámetro</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">UserController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-comment">/**
+     * Mostrar perfil de usuario
+     * @param string $nombre
+     * @return string
+     */</span>
+    <span class="code-keyword">public function</span> <span class="code-function">perfil</span>(<span class="code-keyword">string</span> <span class="code-function">$nombre</span>): <span class="code-keyword">string</span>
+    {
+        <span class="code-keyword">return</span> <span class="code-string">"Perfil del usuario: "</span> . <span class="code-function">$nombre</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Ruta con parámetro dinámico</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">use</span> <span class="code-function">App\Http\Controllers\UserController</span>;
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Support\Facades\Route</span>;
+
+<span class="code-comment">// Ruta con parámetro {nombre}</span>
+<span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/perfil/{nombre}'</span>, [<span class="code-function">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">'perfil'</span>]);
+
+<span class="code-comment">// También se pueden usar múltiples parámetros</span>
+<span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/usuario/{id}/{nombre}'</span>, [<span class="code-function">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">'mostrar'</span>]);</pre>
+            </div>
+        </section>
+
+        <!-- Sección 4: Uso de Request para recibir datos -->
+        <section id="request" class="content-section">
+            <h2>4. Uso de Request para recibir datos</h2>
+            <p>Laravel utiliza la clase <code>Request</code> para manejar los datos enviados por formularios o peticiones HTTP.</p>
+
+            <h3>Controlador que procesa datos POST</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Http\Request</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">UserController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-comment">/**
+     * Guardar datos de usuario
+     * @param Request $request
+     * @return string
+     */</span>
+    <span class="code-keyword">public function</span> <span class="code-function">guardar</span>(<span class="code-function">Request</span> <span class="code-function">$request</span>): <span class="code-keyword">string</span>
+    {
+        <span class="code-comment">// Obtener datos del formulario</span>
+        <span class="code-function">$nombre</span> = <span class="code-function">$request</span>-><span class="code-function">input</span>(<span class="code-string">'nombre'</span>);
+        <span class="code-function">$correo</span> = <span class="code-function">$request</span>-><span class="code-function">input</span>(<span class="code-string">'correo'</span>);
+
+        <span class="code-comment">// También se puede usar:</span>
+        <span class="code-comment">// $nombre = $request->nombre;</span>
+        <span class="code-comment">// $correo = $request->correo;</span>
+
+        <span class="code-keyword">return</span> <span class="code-string">"Nombre: $nombre | Correo: $correo"</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Ruta para método POST</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">use</span> <span class="code-function">App\Http\Controllers\UserController</span>;
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Support\Facades\Route</span>;
+
+<span class="code-function">Route</span>::<span class="code-function">post</span>(<span class="code-string">'/guardar-usuario'</span>, [<span class="code-function">UserController</span>::<span class="code-keyword">class</span>, <span class="code-string">'guardar'</span>]);</pre>
+            </div>
+
+            <h3>Formulario HTML en Blade</h3>
+            <div class="code-block">
+                <pre><span class="code-html">&lt;!-- resources/views/formulario.blade.php --&gt;</span>
+&lt;<span class="code-keyword">form</span> <span class="code-function">method</span>=<span class="code-string">"POST"</span> <span class="code-function">action</span>=<span class="code-string">"/guardar-usuario"</span>&gt;
+    @csrf <span class="code-comment">&lt;!-- Token de seguridad --&gt;</span>
+
+    &lt;<span class="code-keyword">div</span> <span class="code-function">class</span>=<span class="code-string">"mb-4"</span>&gt;
+        &lt;<span class="code-keyword">label</span> <span class="code-function">for</span>=<span class="code-string">"nombre"</span> <span class="code-function">class</span>=<span class="code-string">"block text-gray-700"</span>&gt;Nombre&lt;/<span class="code-keyword">label</span>&gt;
+        &lt;<span class="code-keyword">input</span> <span class="code-function">type</span>=<span class="code-string">"text"</span> <span class="code-function">name</span>=<span class="code-string">"nombre"</span> <span class="code-function">id</span>=<span class="code-string">"nombre"</span> <span class="code-function">class</span>=<span class="code-string">"border rounded p-2 w-full"</span> <span class="code-function">required</span>&gt;
+    &lt;/<span class="code-keyword">div</span>&gt;
+
+    &lt;<span class="code-keyword">div</span> <span class="code-function">class</span>=<span class="code-string">"mb-4"</span>&gt;
+        &lt;<span class="code-keyword">label</span> <span class="code-function">for</span>=<span class="code-string">"correo"</span> <span class="code-function">class</span>=<span class="code-string">"block text-gray-700"</span>&gt;Correo&lt;/<span class="code-keyword">label</span>&gt;
+        &lt;<span class="code-keyword">input</span> <span class="code-function">type</span>=<span class="code-string">"email"</span> <span class="code-function">name</span>=<span class="code-string">"correo"</span> <span class="code-function">id</span>=<span class="code-string">"correo"</span> <span class="code-function">class</span>=<span class="code-string">"border rounded p-2 w-full"</span> <span class="code-function">required</span>&gt;
+    &lt;/<span class="code-keyword">div</span>&gt;
+
+    &lt;<span class="code-keyword">button</span> <span class="code-function">type</span>=<span class="code-string">"submit"</span> <span class="code-function">class</span>=<span class="code-string">"bg-blue-500 text-white px-4 py-2 rounded"</span>&gt;
+        Enviar
+    &lt;/<span class="code-keyword">button</span>&gt;
+&lt;/<span class="code-keyword">form</span>&gt;</pre>
+            </div>
+
+            <div class="highlight">
+                <p><strong>Importante: Protección CSRF</strong><br>
+                El uso de <code>@csrf</code> en formularios Laravel es esencial para protección contra ataques CSRF (Cross-Site Request Forgery). Laravel verifica automáticamente este token en cada petición POST.</p>
+            </div>
+        </section>
+
+        <!-- Sección 5: Controladores CRUD -->
+        <section id="crud" class="content-section">
+            <h2>5. Controladores CRUD (Resource)</h2>
+            <p>Laravel permite crear controladores que incluyen automáticamente las operaciones CRUD (Create, Read, Update, Delete) con un solo comando.</p>
+
+            <div class="command">
+                php artisan make:controller ProductController --resource
+            </div>
+
+            <h3>Estructura generada automáticamente</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>MÉTODO</th>
+                        <th>ACCIÓN</th>
+                        <th>RUTA</th>
+                        <th>VERBO HTTP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>index()</td>
+                        <td>Listar registros</td>
+                        <td>/Productos</td>
+                        <td>GET</td>
+                    </tr>
+                    <tr>
+                        <td>create()</td>
+                        <td>Mostrar formulario creación</td>
+                        <td>/Productos/create</td>
+                        <td>GET</td>
+                    </tr>
+                    <tr>
+                        <td>store()</td>
+                        <td>Guardar nuevo registro</td>
+                        <td>/Productos</td>
+                        <td>POST</td>
+                    </tr>
+                    <tr>
+                        <td>show($id)</td>
+                        <td>Mostrar un registro</td>
+                        <td>/Productos/{id}</td>
+                        <td>GET</td>
+                    </tr>
+                    <tr>
+                        <td>edit($id)</td>
+                        <td>Mostrar formulario edición</td>
+                        <td>/Productos/{id}/edit</td>
+                        <td>GET</td>
+                    </tr>
+                    <tr>
+                        <td>update($id)</td>
+                        <td>Actualizar registro</td>
+                        <td>/Productos/{id}</td>
+                        <td>PUT/PATCH</td>
+                    </tr>
+                    <tr>
+                        <td>destroy($id)</td>
+                        <td>Eliminar registro</td>
+                        <td>/Productos/{id}</td>
+                        <td>DELETE</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Ejemplo de controlador resource</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">use</span> <span class="code-function">App\Models\Producto</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">ProductController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-function">index</span>()
+    {
+        <span class="code-function">$productos</span> = <span class="code-function">Producto</span>::<span class="code-function">all</span>();
+        <span class="code-keyword">return</span> <span class="code-function">view</span>(<span class="code-string">'productos.index'</span>, <span class="code-function">compact</span>(<span class="code-string">'productos'</span>));
+    }
+
+    <span class="code-keyword">public function</span> <span class="code-function">show</span>(<span class="code-function">$id</span>)
+    {
+        <span class="code-function">$producto</span> = <span class="code-function">Producto</span>::<span class="code-function">findOrFail</span>(<span class="code-function">$id</span>);
+        <span class="code-keyword">return</span> <span class="code-function">view</span>(<span class="code-string">'productos.show'</span>, <span class="code-function">compact</span>(<span class="code-string">'producto'</span>));
+    }
+}</pre>
+            </div>
+
+            <h3>Ruta resource (todas las rutas)</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">use</span> <span class="code-function">App\Http\Controllers\ProductController</span>;
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Support\Facades\Route</span>;
+
+<span class="code-comment">// Una sola línea para todas las rutas CRUD</span>
+<span class="code-function">Route</span>::<span class="code-function">resource</span>(<span class="code-string">'productos'</span>, <span class="code-function">ProductController</span>::<span class="code-keyword">class</span>);
+
+<span class="code-comment">// También se pueden excluir métodos</span>
+<span class="code-function">Route</span>::<span class="code-function">resource</span>(<span class="code-string">'productos'</span>, <span class="code-function">ProductController</span>::<span class="code-keyword">class</span>)-><span class="code-function">except</span>([
+    <span class="code-string">'create'</span>, <span class="code-string">'edit'</span>
+]);</pre>
+            </div>
+        </section>
+
+        <!-- Sección 6: Controladores Invokable -->
+        <section id="invokable" class="content-section">
+            <h2>6. Controladores Invokable (Single Action)</h2>
+            <p>Un controlador invokable en Laravel es un controlador que contiene un único método llamado <code>__invoke()</code>. Este tipo de controlador se utiliza cuando una ruta necesita ejecutar una sola acción específica, promoviendo un diseño más claro y enfocado.</p>
+
+            <div class="advantages">
+                <div class="advantage-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h4>Responsabilidad única</h4>
+                    <p>Cada controlador tiene una única responsabilidad, siguiendo el principio de responsabilidad única.</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-broom"></i>
+                    <h4>Código más limpio</h4>
+                    <p>Elimina métodos innecesarios y mantiene el controlador enfocado en una sola tarea.</p>
+                </div>
+                <div class="advantage-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Ideal para acciones simples</h4>
+                    <p>Perfecto para páginas de contacto, páginas de inicio, confirmaciones, etc.</p>
+                </div>
+            </div>
+
+            <h3>Ejemplo de controlador invokable</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">MostrarPerfil</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-comment">/**
+     * Mostrar perfil de usuario
+     *
+     * @param string $nombre
+     * @return string
+     */</span>
+    <span class="code-keyword">public function</span> <span class="code-function">__invoke</span>(<span class="code-keyword">string</span> <span class="code-function">$nombre</span>): <span class="code-keyword">string</span>
+    {
+        <span class="code-keyword">return</span> <span class="code-string">"Mostrando perfil de: $nombre"</span>;
+    }
+}</pre>
+            </div>
+
+            <h3>Rutas simplificadas</h3>
+            <div class="code-block">
+                <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-comment">// Ruta tradicional (necesita especificar método)</span>
+<span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/perfil/{nombre}'</span>, [<span class="code-function">PerfilController</span>::<span class="code-keyword">class</span>, <span class="code-string">'mostrar'</span>]);
+
+<span class="code-comment">// Ruta para controlador invokable (más limpia)</span>
+<span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/perfil/{nombre}'</span>, <span class="code-function">MostrarPerfil</span>::<span class="code-keyword">class</span>);</pre>
+            </div>
+
+            <div class="command">
+                php artisan make:controller ContactController --invokable
+            </div>
+        </section>
+
+        <!-- Sección 7: Ejercicios prácticos -->
+        <section id="exercises" class="content-section">
+            <h2>7. Ejercicios prácticos</h2>
+            <p>Pon en práctica lo aprendido con estos ejercicios. Cada ejercicio incluye el enunciado y la solución completa.</p>
+
+            <div class="exercise">
+                <h4><i class="fas fa-dumbbell"></i> Ejercicio 1: Controlador básico</h4>
+                <p><strong>Enunciado:</strong> Crea un controlador llamado <code>SaludoController</code> con un método <code>bienvenida()</code> que muestre: <code>"Bienvenido al sistema"</code></p>
+                <p><strong>Solución:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">SaludoController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-function">bienvenida</span>()
+    {
+        <span class="code-keyword">return</span> <span class="code-string">"Bienvenido al sistema"</span>;
+    }
+}</pre>
+                </div>
+                <p><strong>Ruta en routes/web.php:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/bienvenida'</span>, [<span class="code-function">SaludoController</span>::<span class="code-keyword">class</span>, <span class="code-string">'bienvenida'</span>]);</pre>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4><i class="fas fa-dumbbell"></i> Ejercicio 2: Controlador con parámetro</h4>
+                <p><strong>Enunciado:</strong> Crea un controlador <code>ProductoController</code> con un método <code>detalle($id)</code> que muestre: <code>"Detalle del producto ID: X"</code></p>
+                <p><strong>Solución:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">ProductoController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-function">detalle</span>(<span class="code-function">$id</span>)
+    {
+        <span class="code-keyword">return</span> <span class="code-string">"Detalle del producto ID: $id"</span>;
+    }
+}</pre>
+                </div>
+                <p><strong>Ruta en routes/web.php:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/producto/{id}'</span>, [<span class="code-function">ProductoController</span>::<span class="code-keyword">class</span>, <span class="code-string">'detalle'</span>]);</pre>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4><i class="fas fa-dumbbell"></i> Ejercicio 3: Controlador con formulario</h4>
+                <p><strong>Enunciado:</strong> Crea un formulario que envíe nombre y edad a un controlador y muestre: <code>"Nombre: Juan | Edad: 20"</code></p>
+                <p><strong>Solución:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">use</span> <span class="code-function">Illuminate\Http\Request</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">FormularioController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-function">mostrarFormulario</span>()
+    {
+        <span class="code-keyword">return</span> <span class="code-function">view</span>(<span class="code-string">'formulario'</span>);
+    }
+
+    <span class="code-keyword">public function</span> <span class="code-function">procesar</span>(<span class="code-function">Request</span> <span class="code-function">$request</span>)
+    {
+        <span class="code-function">$nombre</span> = <span class="code-function">$request</span>-><span class="code-function">input</span>(<span class="code-string">'nombre'</span>);
+        <span class="code-function">$edad</span> = <span class="code-function">$request</span>-><span class="code-function">input</span>(<span class="code-string">'edad'</span>);
+        <span class="code-keyword">return</span> <span class="code-string">"Nombre: $nombre | Edad: $edad"</span>;
+    }
+}</pre>
+                </div>
+                <p><strong>Rutas en routes/web.php:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/formulario'</span>, [<span class="code-function">FormularioController</span>::<span class="code-keyword">class</span>, <span class="code-string">'mostrarFormulario'</span>]);
+<span class="code-function">Route</span>::<span class="code-function">post</span>(<span class="code-string">'/procesar'</span>, [<span class="code-function">FormularioController</span>::<span class="code-keyword">class</span>, <span class="code-string">'procesar'</span>]);</pre>
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4><i class="fas fa-dumbbell"></i> Ejercicio 5: Controlador Invokable</h4>
+                <p><strong>Enunciado:</strong> Crea un controlador invokable llamado <code>ContactController</code> que muestre información de contacto cuando se acceda a la ruta <code>/contacto</code>.</p>
+                <p><strong>Solución:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-keyword">&lt;?php</span>
+
+<span class="code-keyword">namespace</span> <span class="code-function">App\Http\Controllers</span>;
+
+<span class="code-keyword">class</span> <span class="code-function">ContactController</span> <span class="code-keyword">extends</span> <span class="code-function">Controller</span>
+{
+    <span class="code-keyword">public function</span> <span class="code-function">__invoke</span>()
+    {
+        <span class="code-function">$contacto</span> = [
+            <span class="code-string">'email'</span> => <span class="code-string">'contacto@empresa.com'</span>,
+            <span class="code-string">'telefono'</span> => <span class="code-string">'+34 123 456 789'</span>,
+            <span class="code-string">'direccion'</span> => <span class="code-string">'Calle Principal, 123'</span>
+        ];
+
+        <span class="code-keyword">return</span> <span class="code-function">view</span>(<span class="code-string">'contacto'</span>, <span class="code-function">compact</span>(<span class="code-string">'contacto'</span>));
+    }
+}</pre>
+                </div>
+                <div class="command">
+                    php artisan make:controller ContactController --invokable
+                </div>
+                <p><strong>Ruta en routes/web.php:</strong></p>
+                <div class="code-block">
+                    <pre><span class="code-function">Route</span>::<span class="code-function">get</span>(<span class="code-string">'/contacto'</span>, <span class="code-function">ContactController</span>::<span class="code-keyword">class</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-indicator">
+            <div class="page-dot active" data-target="what-is"></div>
+            <div class="page-dot" data-target="create"></div>
+            <div class="page-dot" data-target="parameters"></div>
+            <div class="page-dot" data-target="request"></div>
+            <div class="page-dot" data-target="crud"></div>
+            <div class="page-dot" data-target="invokable"></div>
+            <div class="page-dot" data-target="exercises"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>Lo que has aprendido:</strong> Creación de controladores básicos • Uso de parámetros en controladores • Manejo de datos con la clase Request • Controladores resource para CRUD • Controladores invokables</p>
+            <p><strong>Usos de esta guía:</strong> Material de clase para enseñanza • Manual web para referencia rápida • Guía práctica para laboratorio • Base para tutoriales avanzados</p>
+            <p>Guía Práctica de Controladores en Laravel © 2023 - Material educativo para desarrolladores web</p>
+            <p>Para fines educativos y de referencia</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navegación entre secciones
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const pageDots = document.querySelectorAll('.page-dot');
+            const sections = document.querySelectorAll('.content-section');
+
+            // Función para mostrar una sección específica
+            function showSection(sectionId) {
+                // Ocultar todas las secciones
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+
+                // Mostrar la sección seleccionada
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Actualizar botones de navegación activos
+                navButtons.forEach(btn => {
+                    if (btn.getAttribute('data-target') === sectionId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                // Actualizar puntos de página activos
+                pageDots.forEach(dot => {
+                    if (dot.getAttribute('data-target') === sectionId) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            // Agregar event listeners a los botones de navegación
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-target');
+                    showSection(targetSection);
+                });
+            });
+
+            // Agregar event listeners a los puntos de página
+            pageDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-target');
+                    showSection(targetSection);
+                });
+            });
+
+            // Efecto de resaltado de código (simplificado)
+            const codeBlocks = document.querySelectorAll('.code-block pre');
+            codeBlocks.forEach(block => {
+                // Este es un resaltado básico - en una implementación real
+                // se usaría una librería como Prism.js o Highlight.js
+                const code = block.innerHTML;
+                // Simplemente mantenemos el formato preexistente de las clases
+                block.innerHTML = code;
+            });
+        });
+    </script>
+</body>
+</html>
